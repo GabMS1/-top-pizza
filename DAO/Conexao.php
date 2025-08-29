@@ -3,9 +3,9 @@
 
 class Conexao {
     private $host = 'localhost';
-    private $dbname = 'seu_banco_de_dados';
-    private $user = 'root';
-    private $password = '';
+    private $dbname = 'toppizza'; // **Atualize este nome**
+    private $user = 'root';      // **Atualize este nome de usuário**
+    private $password = '';      // **Atualize esta senha**
     private $pdo_con;
 
     public function get_connection() {

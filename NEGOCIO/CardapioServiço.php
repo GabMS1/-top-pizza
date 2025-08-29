@@ -1,5 +1,5 @@
 <?php
-// NEGOCIO/CardapioServico.php
+// NEGOCIO/CardapioServiço.php
 
 require_once '../DAO/CardapioDAO.php';
 

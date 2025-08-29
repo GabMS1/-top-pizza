@@ -1,7 +1,8 @@
 <?php
 // TELA/api_produtos.php
 
-require_once '../NEGOCIO/CardapioServico.php';
+// Caminho corrigido para o arquivo com 'ç'
+require_once '../NEGOCIO/CardapioServiço.php';
 
 header("Content-Type: application/json");
 
