@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOP PIZZARIA - Pagamento</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>TOP PIZZARIA</h1>
+    </header>
+
+    <main id="app-container">
+        <a href="index.html" class="back-button" style="text-decoration: none; display: inline-block;">Voltar ao Cardápio</a>
+        
+        <div class="payment-form-container">
+            <h2>Forma de Pagamento na Loja</h2>
+            <div id="payment-options">
+                <div class="form-group">
+                    <label class="form-label">Produto Selecionado:</label>
+                    <input type="text" id="product-name" class="form-input" value="Carregando..." disabled>
+                </div>
+                <button id="pix-button" class="confirm-button">Pagar com PIX (Gerar QR Code)</button>
+                <button id="card-button" class="back-button" style="width: 100%; margin-top: 12px;">Pagar com Cartão (Chamar Garçom)</button>
+            </div>
+            <div id="qr-code-container" class="qr-code-container" style="display: none;">
+                <p>Escaneie o QR Code para pagar com PIX:</p>
+                <img id="qr-code-img" src="" alt="QR Code PIX">
+                <p id="pix-message" style="display: none; color: #61dafb; margin-top: 15px;">Pagamento confirmado! Obrigado.</p>
+            </div>
+        </div>
+    </main>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const productId = params.get('id_produto');
+            const productNameInput = document.getElementById('product-name');
+            let productDetails = {};
+
+            // Simulação de busca do nome do produto
+            if (productId) {
+                // Em um app real, você faria um fetch para api_detalhes.php
+                // Vamos simular isso para obter os detalhes
+                fetch(`../TELA/api_detalhes.php?id_produto=${productId}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if(data && data.nome_produto) {
+                            productDetails = data;
+                            productNameInput.value = `${data.nome_produto} - A partir de R$${parseFloat(data.precos[0].valor).toFixed(2)}`;
+                        } else {
+                             productNameInput.value = `Produto ID: ${productId}`;
+                        }
+                    });
+            }
+
+            const pixButton = document.getElementById('pix-button');
+            const cardButton = document.getElementById('card-button');
+            const qrContainer = document.getElementById('qr-code-container');
+            const qrImg = document.getElementById('qr-code-img');
+            const paymentOptions = document.getElementById('payment-options');
+
+            function registrarPedido() {
+                const preco = productDetails.precos ? productDetails.precos[0].valor : '0.00';
+                const formData = new FormData();
+                formData.append('id_produto', productId);
+                formData.append('nome_produto', productDetails.nome_produto);
+                formData.append('valor_final', preco);
+
+                fetch('api_registrar_pedido.php', {
+                    method: 'POST',
+                    body: formData
+                }).then(res => res.json()).then(data => {
+                    console.log('Pedido registrado:', data);
+                });
+            }
+
+            pixButton.addEventListener('click', () => {
+                registrarPedido();
+                // Simulação de geração de QR Code
+                qrImg.src = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=chave-pix-simulada-12345';
+                paymentOptions.style.display = 'none';
+                qrContainer.style.display = 'block';
+
+                // Simula a confirmação do pagamento após alguns segundos
+                setTimeout(() => {
+                    document.getElementById('pix-message').style.display = 'block';
+                }, 3000);
+            });
+
+            cardButton.addEventListener('click', () => {
+                registrarPedido();
+                alert('Um de nossos garçons está a caminho com a maquininha de cartão. Obrigado!');
+                paymentOptions.style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>

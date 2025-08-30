@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const appContainer = document.getElementById('app-container');
 
     function fetchCategorias() {
-        // Caminho corrigido para acessar a pasta TELA a partir da pasta public
         fetch('../TELA/api_categorias.php')
             .then(response => {
                 if (!response.ok) {
@@ -31,7 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function fetchProdutos(idCategoria, nomeCategoria) {
-        // Caminho corrigido
         fetch(`../TELA/api_produtos.php?id_categoria=${idCategoria}`)
             .then(response => {
                 if (!response.ok) {
@@ -54,57 +52,56 @@ document.addEventListener('DOMContentLoaded', () => {
 
         produtos.forEach(produto => {
             const card = document.createElement('div');
-            card.className = 'card';
-            card.innerHTML = `<h2>${produto.nome_produto}</h2>`;
-            card.addEventListener('click', () => fetchDetalhesProduto(produto.id_produto));
+            card.className = 'card product-card'; // Adiciona a classe 'product-card'
+            
+            const buttonText = nomeCategoria.toLowerCase().includes('bebidas') ? 'Pedir esta bebida' : 'Pedir este sabor';
+
+            card.innerHTML = `
+                <h3>${produto.nome_produto}</h3>
+                <p class="card-description">${produto.descricao_produto || 'Sem descrição'}</p>
+                <p class="card-price">A partir de R$${parseFloat(produto.menor_preco).toFixed(2)}</p>
+                <button class="confirm-button">${buttonText}</button>
+            `;
+            // Ação de clique apenas no botão
+            card.querySelector('.confirm-button').addEventListener('click', (e) => {
+                e.stopPropagation();
+                mostrarConfirmacao(produto);
+            });
             cardList.appendChild(card);
         });
     }
 
-    function fetchDetalhesProduto(idProduto) {
-        // Caminho corrigido
-        fetch(`../TELA/api_detalhes.php?id_produto=${idProduto}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Erro na rede ou no servidor: ' + response.statusText);
-                }
-                return response.json();
-            })
-            .then(data => renderDetalhesProduto(data))
-            .catch(error => {
-                console.error('Erro ao buscar detalhes do produto:', error);
-                appContainer.innerHTML = `<button class="back-button">Voltar</button><p class="error-message">Não foi possível carregar os detalhes do produto.</p>`;
-                appContainer.querySelector('.back-button').addEventListener('click', fetchCategorias);
-            });
-    }
+    function mostrarConfirmacao(produto) {
+        // Remove qualquer overlay/modal anterior
+        const oldOverlay = document.querySelector('.modal-overlay');
+        if (oldOverlay) oldOverlay.remove();
 
-    function renderDetalhesProduto(produto) {
-        if (!produto || produto.erro) {
-            appContainer.innerHTML = `<button class="back-button">Voltar</button><p>Detalhes do produto não encontrados.</p>`;
-            appContainer.querySelector('.back-button').addEventListener('click', fetchCategorias);
-            return;
-        }
+        // Cria overlay/modal com classe para estilização
+        const overlay = document.createElement('div');
+        overlay.className = 'modal-overlay';
 
-        let precosHtml = '<ul>';
-        if (produto.precos && produto.precos.length > 0) {
-            produto.precos.forEach(preco => {
-                precosHtml += `<li>${preco.tamanho ? preco.tamanho + ': ' : ''}R$${parseFloat(preco.valor).toFixed(2)}</li>`;
-            });
-        } else {
-            precosHtml += '<li>Nenhum preço disponível.</li>';
-        }
-        precosHtml += '</ul>';
-
-        appContainer.innerHTML = `
-            <button class="back-button">Voltar</button>
-            <div class="product-details">
-                <h2>${produto.nome_produto}</h2>
-                <p><strong>Descrição:</strong> ${produto.descricao_produto || 'N/A'}</p>
-                <h3>Preços:</h3>
-                ${precosHtml}
-            </div>
+        const modal = document.createElement('div');
+        modal.className = 'card';
+        modal.style.maxWidth = '400px';
+        modal.style.cursor = 'default'; // Garante que o modal não pareça clicável
+        modal.style.boxShadow = '0 8px 32px rgba(0,0,0,0.7)';
+        modal.innerHTML = `
+            <h3>Confirmar: ${produto.nome_produto}</h3>
+            <p class="card-description">${produto.descricao_produto || 'Sem descrição'}</p>
+            <p class="card-price">A partir de R$${parseFloat(produto.menor_preco).toFixed(2)}</p>
+            <button class="confirm-button">Ir para Pagamento</button>
+            <button class="back-button" style="margin-top:12px; width: 100%;">Cancelar</button>
         `;
-        appContainer.querySelector('.back-button').addEventListener('click', fetchCategorias);
+
+        modal.querySelector('.confirm-button').addEventListener('click', () => {
+            window.location.href = `pagamento.html?id_produto=${produto.id_produto}`;
+        });
+        modal.querySelector('.back-button').addEventListener('click', () => {
+            document.body.removeChild(overlay);
+        });
+
+        overlay.appendChild(modal);
+        document.body.appendChild(overlay);
     }
 
     // Iniciar a aplicação

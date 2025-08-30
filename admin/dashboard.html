@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - TOP PIZZARIA</title>
+    <link rel="stylesheet" href="../public/style.css">
+    <link rel="stylesheet" href="admin_style.css">
+</head>
+<body>
+    <header>
+        <h1>Painel do Administrador</h1>
+    </header>
+
+    <main id="app-container">
+        <!-- Seção de Pedidos -->
+        <div class="admin-section">
+            <h2>Pedidos Recentes</h2>
+            <div id="order-list" class="card-list">
+                <!-- Pedidos serão carregados aqui via JS -->
+                <p>Carregando pedidos...</p>
+            </div>
+        </div>
+
+        <!-- Seção de Gerenciamento de Produtos -->
+        <div class="admin-section">
+            <h2>Gerenciar Produtos</h2>
+            <div id="product-management-list" class="card-list">
+                <!-- Produtos para gerenciamento serão carregados aqui -->
+                <p>Carregando produtos...</p>
+            </div>
+        </div>
+    </main>
+    
+    <script src="admin_script.js"></script>
+</body>
+</html>

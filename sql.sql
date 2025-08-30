@@ -9,6 +9,8 @@ CREATE TABLE IF NOT EXISTS produtos (
     nome_produto VARCHAR(255) NOT NULL,
     descricao_produto TEXT,
     id_categoria INT,
+    foto_url VARCHAR(255) DEFAULT NULL,
+    visivel BOOLEAN DEFAULT TRUE,
     FOREIGN KEY (id_categoria) REFERENCES categorias(id_categoria)
 );
 
@@ -17,6 +19,16 @@ CREATE TABLE IF NOT EXISTS precos (
     id_produto INT NOT NULL,
     tamanho VARCHAR(50),
     valor DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (id_produto) REFERENCES produtos(id_produto)
+);
+
+CREATE TABLE IF NOT EXISTS pedidos (
+    id_pedido INT PRIMARY KEY AUTO_INCREMENT,
+    id_produto INT NOT NULL,
+    nome_produto VARCHAR(255),
+    valor_final DECIMAL(10, 2),
+    data_pedido TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status_pedido VARCHAR(50) DEFAULT 'Recebido',
     FOREIGN KEY (id_produto) REFERENCES produtos(id_produto)
 );
 

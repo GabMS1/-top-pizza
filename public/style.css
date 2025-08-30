@@ -1,97 +1,222 @@
+/* Vibe Coding: Dark theme, monoespaçada, visual de editor */
+
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f2f5;
+    font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
+    background-color: #181a1b;
+    color: #e0e0e0;
     margin: 0;
     padding: 0;
 }
 
 header {
-    background-color: #424242;
-    color: white;
-    padding: 20px;
+    background-color: #23272e;
+    color: #61dafb;
+    padding: 24px 0;
     text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+    letter-spacing: 2px;
+    font-size: 2em;
+    font-weight: bold;
+    border-bottom: 2px solid #282c34;
+}
+
+header h1 {
+    font-size: 1.5em; /* Tamanho do H1 reduzido */
+    margin: 0;
+    padding: 0;
 }
 
 #app-container {
     max-width: 900px;
-    margin: 20px auto;
-    padding: 0 15px;
+    margin: 32px auto;
+    padding: 0 20px;
 }
 
 #app-container h2 {
     text-align: center;
-    margin-bottom: 25px;
-    color: #333;
+    margin-bottom: 32px;
+    color: #61dafb;
+    font-size: 1.8em;
+    font-family: 'Fira Mono', monospace;
 }
 
 .card-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 28px;
 }
 
 .card {
-    background-color: #fafafa; /* Cinza muito claro para o fundo do card */
-    border-radius: 12px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15); /* Aumenta a intensidade da sombra */
-    padding: 30px;
-    text-align: center;
+    background: linear-gradient(135deg, #23272e 80%, #282c34 100%);
+    border-radius: 10px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.35);
+    padding: 24px; /* Padding reduzido */
+    text-align: left;
     cursor: pointer;
-    transition: transform 0.3s, box-shadow 0.3s;
-    border: 1px solid #e0e0e0;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1.5px solid #282c34;
+    display: flex;
+    flex-direction: column;
+    min-height: auto; /* Altura automática baseada no conteúdo */
+    position: relative;
+}
+
+/* Remove o cursor de ponteiro para cards de produto, pois a ação está no botão */
+.card.product-card {
+    cursor: default;
 }
 
 .card:hover {
-    transform: translateY(-8px); /* Efeito de elevação maior */
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); /* Sombra mais intensa ao passar o mouse */
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0 12px 32px rgba(97,218,251,0.12);
+    border-color: #61dafb;
 }
 
-.card h2 {
-    margin-top: 0;
-    margin-bottom: 0;
-    color: #424242;
+/* Desativa a animação de hover para cards de produto */
+.card.product-card:hover {
+    transform: none;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.35);
+    border-color: #282c34;
+}
+
+.card h2, .card h3 {
+    margin: 0 0 10px 0;
+    color: #61dafb;
+    font-size: 1.3em;
+    font-family: 'Fira Mono', monospace;
+    font-weight: 600;
+}
+
+.card-description {
+    font-size: 0.95em; /* Fonte levemente menor */
+    color: #bdbdbd;
+    margin-bottom: 18px;
+    min-height: 40px; /* Altura mínima reduzida */
+    font-family: 'Fira Mono', monospace;
+    background: #202328; /* Fundo realçado */
+    border-radius: 6px;
+    padding: 10px 12px;
+    border-left: 3px solid #61dafb;
+    white-space: pre-line;
+}
+
+.card-price {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #ffb300;
+    margin-top: auto;
+    margin-bottom: 12px;
+    font-family: 'Fira Mono', monospace;
+}
+
+.confirm-button {
+    background-color: #61dafb;
+    color: #23272e;
+    border: none;
+    padding: 10px 0; /* Padding vertical reduzido */
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9em; /* Fonte do botão reduzida */
+    font-family: 'Fira Mono', monospace;
+    font-weight: bold;
+    transition: background 0.2s, color 0.2s;
+    width: 100%;
+    margin-top: auto; /* Empurra o botão para baixo */
+    box-shadow: 0 2px 8px rgba(97,218,251,0.08);
+}
+
+.confirm-button:hover {
+    background: #21a1f3;
+    color: #fff;
 }
 
 .back-button {
-    background-color: #757575;
-    color: white;
+    background-color: #282c34;
+    color: #61dafb;
     border: none;
-    padding: 10px 20px;
+    padding: 10px 24px;
     border-radius: 8px;
     cursor: pointer;
-    margin-bottom: 20px;
-    transition: background-color 0.2s;
+    margin-bottom: 24px;
+    font-family: 'Fira Mono', monospace;
+    font-size: 1em;
+    transition: background 0.2s, color 0.2s;
 }
 
 .back-button:hover {
-    background-color: #616161;
+    background-color: #61dafb;
+    color: #23272e;
 }
 
-.product-details {
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    padding: 30px;
-    border: 1px solid #e0e0e0;
+/* --- Estilos para a Página de Pagamento --- */
+
+.payment-form-container {
+    background: linear-gradient(135deg, #23272e 80%, #282c34 100%);
+    padding: 32px;
+    border-radius: 10px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.35);
+    border: 1.5px solid #282c34;
 }
 
-.product-details h2 {
-    color: #424242;
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    color: #61dafb;
+    font-size: 0.9em;
+}
+
+.form-input {
+    width: 100%;
+    padding: 12px;
+    background-color: #181a1b;
+    border: 1.5px solid #282c34;
+    border-radius: 6px;
+    color: #e0e0e0;
+    font-family: 'Fira Mono', monospace;
+    font-size: 1em;
+    box-sizing: border-box; /* Garante que o padding não afete a largura total */
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #61dafb;
+    box-shadow: 0 0 8px rgba(97,218,251,0.2);
+}
+
+.qr-code-container {
     text-align: center;
+    margin-top: 20px;
 }
 
-.product-details ul {
-    list-style: none;
-    padding: 0;
-    text-align: left;
+.qr-code-container img {
+    border: 5px solid #61dafb;
+    border-radius: 10px;
+    background: white;
+    padding: 10px;
 }
 
-.product-details li {
-    padding: 8px 0;
-    border-bottom: 1px solid #eeeeee;
+/* Overlay para modal de confirmação */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
 }
 
-.product-details li:last-child {
-    border-bottom: none;
+/* Responsividade */
+@media (max-width: 600px) {
+    .card-list {
+        grid-template-columns: 1fr;
+    }
+    .card {
+        padding: 20px; /* Padding ajustado para mobile */
+    }
 }
