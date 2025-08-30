@@ -2,6 +2,22 @@
     margin-bottom: 48px;
 }
 
+.category-management-section {
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 2px solid #282c34;
+}
+
+.category-management-section:last-child {
+    border-bottom: none;
+}
+
+.category-title {
+    color: #61dafb;
+    font-size: 1.5em;
+    margin-bottom: 24px;
+}
+
 .admin-card {
     cursor: default !important;
 }
@@ -10,6 +26,12 @@
     transform: none !important;
     box-shadow: 0 6px 24px rgba(0,0,0,0.35) !important;
     border-color: #282c34 !important;
+}
+
+.admin-card h4 {
+    margin: 0 0 12px 0;
+    font-size: 1.1em;
+    color: #e0e0e0;
 }
 
 .admin-card .product-photo {

@@ -1,7 +1,7 @@
 <?php
-// NEGOCIO/CardapioServiço.php
+// NEGOCIO/CardapioServico.php
 
-require_once '../DAO/CardapioDAO.php';
+require_once dirname(__DIR__) . '/DAO/CardapioDAO.php';
 
 class CardapioServico {
     private $cardapioDAO;
@@ -20,6 +20,14 @@ class CardapioServico {
 
     public function getDetalhesProduto($id_produto) {
         return $this->cardapioDAO->buscarDetalhesProduto($id_produto);
+    }
+
+    public function getTodosOsProdutosParaAdmin() {
+        return $this->cardapioDAO->listarTodosOsProdutos();
+    }
+
+    public function getPedidosParaAdmin() {
+        return $this->cardapioDAO->listarPedidos();
     }
 }
 ?>

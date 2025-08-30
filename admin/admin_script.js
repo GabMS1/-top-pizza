@@ -20,31 +20,57 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        productListContainer.innerHTML = ''; // Limpa o container
+        // Agrupa os produtos por categoria
+        const groupedProducts = products.reduce((acc, product) => {
+            const category = product.nome_categoria;
+            if (!acc[category]) {
+                acc[category] = [];
+            }
+            acc[category].push(product);
+            return acc;
+        }, {});
 
-        products.forEach(product => {
-            const card = document.createElement('div');
-            card.className = 'card admin-card';
+        productListContainer.innerHTML = ''; // Limpa o container principal
 
-            const isVisible = product.visivel == 1;
-            const visibilityClass = isVisible ? 'visible' : 'hidden';
-            const visibilityText = isVisible ? 'Ocultar do Cardápio' : 'Exibir no Cardápio';
-            const photoUrl = product.foto_url || 'https://via.placeholder.com/280x150.png?text=Sem+Foto';
+        // Renderiza uma seção para cada categoria
+        for (const category in groupedProducts) {
+            const categorySection = document.createElement('div');
+            categorySection.className = 'category-management-section';
 
-            card.innerHTML = `
-                <h3>${product.nome_produto}</h3>
-                <p style="font-size: 0.8em; color: #888;">Categoria: ${product.nome_categoria}</p>
-                <img src="../public/img/${photoUrl}" alt="${product.nome_produto}" class="product-photo" onerror="this.src='https://via.placeholder.com/280x150.png?text=Sem+Foto'">
-                
-                <label class="form-label">Alterar Foto:</label>
-                <input type="file" class="file-input" accept="image/*" data-id="${product.id_produto}">
-                
-                <button class="toggle-visibility-btn ${visibilityClass}" data-id="${product.id_produto}" data-visible="${isVisible ? '1' : '0'}">
-                    ${visibilityText}
-                </button>
-            `;
-            productListContainer.appendChild(card);
-        });
+            const categoryTitle = document.createElement('h3');
+            categoryTitle.className = 'category-title';
+            categoryTitle.textContent = category;
+            categorySection.appendChild(categoryTitle);
+
+            const productsGrid = document.createElement('div');
+            productsGrid.className = 'card-list';
+
+            groupedProducts[category].forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'card admin-card';
+
+                const isVisible = product.visivel == 1;
+                const visibilityClass = isVisible ? 'visible' : 'hidden';
+                const visibilityText = isVisible ? 'Ocultar do Cardápio' : 'Exibir no Cardápio';
+                const photoUrl = product.foto_url || 'https://via.placeholder.com/280x150.png?text=Sem+Foto';
+
+                card.innerHTML = `
+                    <h4>${product.nome_produto}</h4>
+                    <img src="../public/img/${photoUrl}" alt="${product.nome_produto}" class="product-photo" onerror="this.src='https://via.placeholder.com/280x150.png?text=Sem+Foto'">
+                    
+                    <label class="form-label">Alterar Foto:</label>
+                    <input type="file" class="file-input" accept="image/*" data-id="${product.id_produto}">
+                    
+                    <button class="toggle-visibility-btn ${visibilityClass}" data-id="${product.id_produto}" data-visible="${isVisible ? '1' : '0'}">
+                        ${visibilityText}
+                    </button>
+                `;
+                productsGrid.appendChild(card);
+            });
+
+            categorySection.appendChild(productsGrid);
+            productListContainer.appendChild(categorySection);
+        }
 
         // Adiciona os event listeners para os botões de visibilidade
         document.querySelectorAll('.toggle-visibility-btn').forEach(button => {
@@ -111,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const dataPedido = new Date(order.data_pedido).toLocaleString('pt-BR');
 
             card.innerHTML = `
-                <h3>Pedido #${order.id_pedido}</h3>
+                <h4>Pedido #${order.id_pedido}</h4>
                 <p><strong>Produto:</strong> ${order.nome_produto}</p>
                 <p><strong>Valor:</strong> R$${parseFloat(order.valor_final).toFixed(2)}</p>
                 <p><strong>Data:</strong> ${dataPedido}</p>

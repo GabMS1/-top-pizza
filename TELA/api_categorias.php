@@ -5,7 +5,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 // Caminho corrigido para o arquivo sem 'ç'
-require_once '../NEGOCIO/CardapioServico.php';
+require_once dirname(__DIR__) . '/NEGOCIO/CardapioServico.php';
 
 header("Content-Type: application/json");
 

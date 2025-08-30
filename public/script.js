@@ -1,19 +1,36 @@
 document.addEventListener('DOMContentLoaded', () => {
     const appContainer = document.getElementById('app-container');
 
+    function handleFetchError(error) {
+        console.error('Erro na requisição:', error);
+        let errorMessage = `<p class="error-message">Não foi possível carregar o cardápio. Verifique a conexão com a internet.</p>`;
+        
+        // Se o erro for um objeto com detalhes (vindo do nosso backend)
+        if (error && error.detalhes) {
+            errorMessage = `
+                <div class="error-message">
+                    <strong>Erro no Servidor:</strong> ${error.erro}<br>
+                    <strong>Detalhes:</strong> ${error.detalhes}
+                </div>
+            `;
+        }
+        
+        appContainer.innerHTML = errorMessage;
+    }
+
     function fetchCategorias() {
         fetch('../TELA/api_categorias.php')
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Erro na rede ou no servidor: ' + response.statusText);
+                    return response.json().then(err => { throw err; });
                 }
                 return response.json();
             })
-            .then(data => renderCategorias(data))
-            .catch(error => {
-                console.error('Erro ao buscar categorias:', error);
-                appContainer.innerHTML = `<p class="error-message">Não foi possível carregar o cardápio. Verifique a conexão com o banco de dados e o caminho da API.</p>`;
-            });
+            .then(data => {
+                if (data.erro) { throw data; } // Lança erro se o JSON contiver uma chave de erro
+                renderCategorias(data);
+            })
+            .catch(handleFetchError);
     }
 
     function renderCategorias(categorias) {
@@ -33,14 +50,26 @@ document.addEventListener('DOMContentLoaded', () => {
         fetch(`../TELA/api_produtos.php?id_categoria=${idCategoria}`)
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Erro na rede ou no servidor: ' + response.statusText);
+                    return response.json().then(err => { throw err; });
                 }
                 return response.json();
             })
-            .then(data => renderProdutos(data, nomeCategoria))
+            .then(data => {
+                if (data.erro) { throw data; }
+                renderProdutos(data, nomeCategoria);
+            })
             .catch(error => {
                 console.error('Erro ao buscar produtos:', error);
-                appContainer.innerHTML = `<button class="back-button">Voltar</button><p class="error-message">Não foi possível carregar os produtos.</p>`;
+                let errorMessage = `<p class="error-message">Não foi possível carregar os produtos.</p>`;
+                if (error && error.detalhes) {
+                    errorMessage = `
+                        <div class="error-message">
+                            <strong>Erro no Servidor:</strong> ${error.erro}<br>
+                            <strong>Detalhes:</strong> ${error.detalhes}
+                        </div>
+                    `;
+                }
+                appContainer.innerHTML = `<button class="back-button">Voltar</button>${errorMessage}`;
                 appContainer.querySelector('.back-button').addEventListener('click', fetchCategorias);
             });
     }

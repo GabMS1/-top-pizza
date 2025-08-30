@@ -1,7 +1,7 @@
 <?php
 // DAO/CardapioDAO.php
 
-require_once 'Conexao.php';
+require_once __DIR__ . '/Conexao.php';
 
 class CardapioDAO {
     private $conn;

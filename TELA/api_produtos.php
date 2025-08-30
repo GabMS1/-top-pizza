@@ -2,7 +2,7 @@
 // TELA/api_produtos.php
 
 // Caminho corrigido para o arquivo sem 'ç'
-require_once '../NEGOCIO/CardapioServico.php';
+require_once dirname(__DIR__) . '/NEGOCIO/CardapioServico.php';
 
 header("Content-Type: application/json");
 
