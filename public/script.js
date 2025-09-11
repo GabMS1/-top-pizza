@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Erro na requisição:', error);
         let errorMessage = `<p class="error-message">Não foi possível carregar o cardápio. Verifique a conexão com a internet.</p>`;
         
-        // Se o erro for um objeto com detalhes (vindo do nosso backend)
         if (error && error.detalhes) {
             errorMessage = `
                 <div class="error-message">

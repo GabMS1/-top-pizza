@@ -20,6 +20,7 @@
 
 .admin-card {
     cursor: default !important;
+    min-height: 250px;
 }
 
 .admin-card:hover {
@@ -58,15 +59,15 @@
     width: 100%;
     padding: 8px;
     font-size: 0.8em;
-    margin-top: 12px;
+    margin-top: auto;
 }
 
 .toggle-visibility-btn.visible {
-    background-color: #4CAF50; /* Verde */
+    background-color: #4CAF50;
     color: white;
 }
 
 .toggle-visibility-btn.hidden {
-    background-color: #f44336; /* Vermelho */
+    background-color: #f44336;
     color: white;
 }
