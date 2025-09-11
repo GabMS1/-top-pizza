@@ -7,7 +7,7 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - ./gabms1/-top-pizza/-top-pizza-f1526101d42bc81f5a55ef9963d0521d287471fe:/var/www/html
+      - .:/var/www/html
     depends_on:
       - db
   
@@ -18,9 +18,9 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=
       - MYSQL_DATABASE=maistoppizza
-      - MYSQL_USER=root
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
     volumes:
-      - ./gabms1/-top-pizza/-top-pizza-f1526101d42bc81f5a55ef9963d0521d287471fe/sql.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./sql.sql:/docker-entrypoint-initdb.d/init.sql
       - db_data:/var/lib/mysql
 
 volumes:
