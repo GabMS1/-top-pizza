@@ -65,11 +65,11 @@
 }
 
 .toggle-visibility-btn.visible {
-    background-color: #4CAF50; /* Verde */
+    background-color: #4CAF50;
     color: white;
 }
 
 .toggle-visibility-btn.hidden {
-    background-color: #f44336; /* Vermelho */
+    background-color: #f44336;
     color: white;
 }
