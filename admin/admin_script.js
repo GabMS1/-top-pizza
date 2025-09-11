@@ -20,7 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Agrupa os produtos por categoria
         const groupedProducts = products.reduce((acc, product) => {
             const category = product.nome_categoria;
             if (!acc[category]) {
@@ -32,7 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         productListContainer.innerHTML = '';
 
-        // Renderiza uma seção para cada categoria
         for (const category in groupedProducts) {
             const categorySection = document.createElement('div');
             categorySection.className = 'category-management-section';
@@ -72,7 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
             productListContainer.appendChild(categorySection);
         }
 
-        // Adiciona os event listeners para os botões de visibilidade
         document.querySelectorAll('.toggle-visibility-btn').forEach(button => {
             button.addEventListener('click', handleVisibilityToggle);
         });
@@ -95,7 +92,6 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(response => response.json())
         .then(data => {
             if (data.sucesso) {
-                // Atualiza o botão na interface
                 button.dataset.visible = newVisibility;
                 const isVisible = newVisibility === '1';
                 button.textContent = isVisible ? 'Ocultar do Cardápio' : 'Exibir no Cardápio';
