@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function fetchCategorias() {
-        fetch('../TELA/api_categorias.php')
+        fetch('/TELA/api_categorias.php')
             .then(response => {
                 if (!response.ok) {
                     return response.json().then(err => { throw err; });
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return response.json();
             })
             .then(data => {
-                if (data.erro) { throw data; } // Lança erro se o JSON contiver uma chave de erro
+                if (data.erro) { throw data; }
                 renderCategorias(data);
             })
             .catch(handleFetchError);
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function fetchProdutos(idCategoria, nomeCategoria) {
-        fetch(`../TELA/api_produtos.php?id_categoria=${idCategoria}`)
+        fetch(`/TELA/api_produtos.php?id_categoria=${idCategoria}`)
             .then(response => {
                 if (!response.ok) {
                     return response.json().then(err => { throw err; });
@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         produtos.forEach(produto => {
             const card = document.createElement('div');
-            card.className = 'card product-card'; // Adiciona a classe 'product-card'
+            card.className = 'card product-card';
             
             const buttonText = nomeCategoria.toLowerCase().includes('bebidas') ? 'Pedir esta bebida' : 'Pedir este sabor';
 
@@ -91,7 +91,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p class="card-price">A partir de R$${parseFloat(produto.menor_preco).toFixed(2)}</p>
                 <button class="confirm-button">${buttonText}</button>
             `;
-            // Ação de clique apenas no botão
             card.querySelector('.confirm-button').addEventListener('click', (e) => {
                 e.stopPropagation();
                 mostrarConfirmacao(produto);
@@ -101,18 +100,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function mostrarConfirmacao(produto) {
-        // Remove qualquer overlay/modal anterior
         const oldOverlay = document.querySelector('.modal-overlay');
         if (oldOverlay) oldOverlay.remove();
 
-        // Cria overlay/modal com classe para estilização
         const overlay = document.createElement('div');
         overlay.className = 'modal-overlay';
 
         const modal = document.createElement('div');
         modal.className = 'card';
         modal.style.maxWidth = '400px';
-        modal.style.cursor = 'default'; // Garante que o modal não pareça clicável
+        modal.style.cursor = 'default';
         modal.style.boxShadow = '0 8px 32px rgba(0,0,0,0.7)';
         modal.innerHTML = `
             <h3>Confirmar: ${produto.nome_produto}</h3>
@@ -133,6 +130,5 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.appendChild(overlay);
     }
 
-    // Iniciar a aplicação
     fetchCategorias();
 });

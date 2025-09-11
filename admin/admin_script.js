@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return acc;
         }, {});
 
-        productListContainer.innerHTML = ''; // Limpa o container principal
+        productListContainer.innerHTML = '';
 
         // Renderiza uma seção para cada categoria
         for (const category in groupedProducts) {
@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        orderListContainer.innerHTML = ''; // Limpa o container
+        orderListContainer.innerHTML = '';
 
         orders.forEach(order => {
             const card = document.createElement('div');
@@ -147,7 +147,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Iniciar
     fetchAdminProducts();
     fetchOrders();
 });

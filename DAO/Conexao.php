@@ -2,10 +2,10 @@
 // DAO/Conexao.php
 
 class Conexao {
-    private $host = 'localhost';
-    private $dbname = 'maistoppizza'; // **Verifique se este nome está correto**
-    private $user = 'root';      // **Verifique se este nome de usuário está correto**
-    private $password = '';      // **Verifique se esta senha está correta**
+    private $host = 'db'; // Alterado para o nome do serviço no Docker Compose
+    private $dbname = 'maistoppizza';
+    private $user = 'root';
+    private $password = 'docker'; // Mesma senha definida no docker-compose.yml
     private $pdo_con;
 
     public function get_connection() {
